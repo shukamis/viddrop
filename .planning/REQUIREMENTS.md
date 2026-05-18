@@ -30,7 +30,7 @@
 ### Engine e Infraestrutura
 
 - [ ] **ENG-01**: yt-dlp se auto-atualiza para manter compatibilidade com as plataformas
-- [ ] **ENG-02**: Erros cripticos do yt-dlp mapeados para mensagens legíveis ao usuario
+- [ ] **ENG-02**: Erros cripticos do yt-dlp mapeados para mensagens legiveis ao usuario
 - [ ] **ENG-03**: App verifica presenca de yt-dlp.exe e ffmpeg.exe na inicializacao
 - [ ] **ENG-04**: App cria pasta de saida no primeiro uso (%USERPROFILE%\Downloads\VidDrop)
 
@@ -60,7 +60,7 @@
 
 | Feature | Razao |
 |---|---|
-| Historico de downloads persistente | Simplicidade — app de uso pontual |
+| Historico de downloads persistente | Simplicidade - app de uso pontual |
 | Login em contas (Instagram privado) | Complexidade e riscos de seguranca |
 | App para Mac/Linux | Windows first |
 | Player de video embutido | Nao e o trabalho do app |
@@ -70,32 +70,31 @@
 
 | Requirement | Phase | Status |
 |---|---|---|
-| DL-01 | TBD | Pending |
-| DL-02 | TBD | Pending |
-| DL-03 | TBD | Pending |
-| DL-04 | TBD | Pending |
-| PLAT-01 | TBD | Pending |
-| PLAT-02 | TBD | Pending |
-| PLAT-03 | TBD | Pending |
-| PLAT-04 | TBD | Pending |
-| PLAT-05 | TBD | Pending |
-| UX-01 | TBD | Pending |
-| UX-02 | TBD | Pending |
-| UX-03 | TBD | Pending |
-| UX-04 | TBD | Pending |
-| ENG-01 | TBD | Pending |
-| ENG-02 | TBD | Pending |
-| ENG-03 | TBD | Pending |
-| ENG-04 | TBD | Pending |
-| VIS-01 | TBD | Pending |
-| DIST-01 | TBD | Pending |
-| DIST-02 | TBD | Pending |
+| DL-01 | Phase 1 | Pending |
+| DL-02 | Phase 2 | Pending |
+| DL-03 | Phase 2 | Pending |
+| DL-04 | Phase 2 | Pending |
+| PLAT-01 | Phase 1 | Pending |
+| PLAT-02 | Phase 4 | Pending |
+| PLAT-03 | Phase 4 | Pending |
+| PLAT-04 | Phase 4 | Pending |
+| PLAT-05 | Phase 4 | Pending |
+| UX-01 | Phase 3 | Pending |
+| UX-02 | Phase 5 | Pending |
+| UX-03 | Phase 5 | Pending |
+| UX-04 | Phase 5 | Pending |
+| ENG-01 | Phase 6 | Pending |
+| ENG-02 | Phase 5 | Pending |
+| ENG-03 | Phase 1 | Pending |
+| ENG-04 | Phase 1 | Pending |
+| VIS-01 | Phase 6 | Pending |
+| DIST-01 | Phase 6 | Pending |
+| DIST-02 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 20 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 20
+- Mapped to phases: 20
+- Unmapped: 0
 
 ---
-*Requirements defined: 2026-05-18*
-
+*Requirements defined: 2026-05-18 | Traceability updated: 2026-05-18*
