@@ -3,7 +3,7 @@
 **Created:** 2026-05-18
 **Mode:** mvp (Vertical MVP - each phase delivers a working end-to-end user capability)
 **Granularity:** fine
-**Coverage:** 20/20 v1 requirements mapped
+**Coverage:** 27/27 v1 requirements mapped
 
 ## Phases
 
@@ -13,6 +13,7 @@
 - [ ] **Phase 4: All Platforms** - User downloads from Twitter/X, Instagram, and Facebook, not just YouTube.
 - [ ] **Phase 5: Robust Progress & Cancel** - User sees multi-stage progress, can cancel cleanly, and reads friendly errors.
 - [ ] **Phase 6: Frutiger Aero Look & Installer** - User installs a polished, glossy app via a Windows installer.
+- [ ] **Phase 7: Auto-Cut (Viral Clip Generator)** - User generates short viral clips from long videos using AI.
 
 ## Phase Details
 
@@ -93,6 +94,20 @@
 **Plans:** TBD
 **UI hint:** yes
 
+### Phase 7: Auto-Cut (Viral Clip Generator)
+**Goal:** User loads a video, selects an AI provider, and the app automatically generates short clips with captions and vertical format ready for TikTok/Reels/Shorts.
+**Mode:** mvp
+**Depends on:** Phase 6
+**Requirements:** CLIP-01, CLIP-02, CLIP-03, CLIP-04, CLIP-05, CLIP-06, CLIP-07
+**Success Criteria:**
+  1. User can load a local video file or use a previously downloaded one for clip analysis.
+  2. User can choose AI provider in settings: Whisper (local), OpenAI API, Gemini API, or Claude API.
+  3. App transcribes the video and identifies high-engagement moments automatically.
+  4. User sees a list of suggested clips and can approve or discard each one before export.
+  5. Approved clips are exported with captions burned in and optionally converted to 9:16 vertical format.
+**Plans:** TBD
+**UI hint:** yes
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -103,6 +118,8 @@
 | 4. All Platforms | 0/0 | Not started | - |
 | 5. Robust Progress & Cancel | 0/0 | Not started | - |
 | 6. Frutiger Aero Look & Installer | 0/0 | Not started | - |
+| 7. Auto-Cut (Viral Clip Generator) | 0/0 | Not started | - |
 
 ---
-*Roadmap created: 2026-05-18*
+*Roadmap created: 2026-05-18 | Last updated: 2026-05-18 (Phase 7 added)*
+

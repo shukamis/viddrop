@@ -43,6 +43,17 @@
 - [ ] **DIST-01**: Instalavel via installer Windows .exe (Inno Setup, per-user, sem UAC)
 - [ ] **DIST-02**: Todas as dependencias embutidas no instalador (yt-dlp + ffmpeg)
 
+
+### Auto-Cut (Phase 7)
+
+- [ ] **CLIP-01**: Usuario pode carregar um video local ou usar um video ja baixado para analise
+- [ ] **CLIP-02**: Usuario pode escolher o provedor de IA nas configuracoes (Whisper local, OpenAI API, Gemini API, Claude API)
+- [ ] **CLIP-03**: App transcreve o audio do video e identifica momentos de alto engajamento automaticamente
+- [ ] **CLIP-04**: Usuario ve lista de clips sugeridos e pode aprovar ou descartar cada um
+- [ ] **CLIP-05**: Clips aprovados sao exportados com legendas (captions) queimadas no video
+- [ ] **CLIP-06**: Usuario pode exportar clips no formato vertical 9:16 para TikTok/Reels/Shorts
+- [ ] **CLIP-07**: App funciona offline com Whisper local e online com APIs (OpenAI, Gemini, Claude)
+
 ## v2 Requirements
 
 ### UX
@@ -91,10 +102,19 @@
 | DIST-01 | Phase 6 | Pending |
 | DIST-02 | Phase 6 | Pending |
 
+| CLIP-01 | Phase 7 | Pending |
+| CLIP-02 | Phase 7 | Pending |
+| CLIP-03 | Phase 7 | Pending |
+| CLIP-04 | Phase 7 | Pending |
+| CLIP-05 | Phase 7 | Pending |
+| CLIP-06 | Phase 7 | Pending |
+| CLIP-07 | Phase 7 | Pending |
+
 **Coverage:**
-- v1 requirements: 20 total
+- v1 requirements: 27 total
 - Mapped to phases: 20
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-18 | Traceability updated: 2026-05-18*
+
