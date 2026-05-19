@@ -2,114 +2,118 @@
 
 # VidDrop
 
-**A clean, fast video downloader for Windows with a Frutiger Aero soul.**
+**Baixador de vídeos para Windows limpo, rápido e com alma Frutiger Aero.**
 
-[![Release](https://img.shields.io/github/v/release/shukamis/viddrop?style=flat-square&color=5BA4E6&label=version)](https://github.com/shukamis/viddrop/releases/latest)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-blue?style=flat-square&color=5BA4E6)](https://github.com/shukamis/viddrop/releases/latest)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square&color=5BA4E6)](LICENSE)
+*A clean, fast video downloader for Windows with a Frutiger Aero soul.*
 
-Paste a URL. Pick a format. Done.
+[![Release](https://img.shields.io/github/v/release/shukamis/viddrop?style=flat-square&color=5BA4E6&label=versão)](https://github.com/shukamis/viddrop/releases/latest)
+[![Platform](https://img.shields.io/badge/plataforma-Windows%2010%2F11-blue?style=flat-square&color=5BA4E6)](https://github.com/shukamis/viddrop/releases/latest)
+[![License](https://img.shields.io/badge/licença-MIT-blue?style=flat-square&color=5BA4E6)](LICENSE)
+
+Cole uma URL. Escolha o formato. Pronto.
 
 ---
 
 </div>
 
-## What it does
+## O que faz
 
-VidDrop downloads videos from the web with zero friction. No browser extension, no Python, no CLI. Just paste a URL and hit download.
+O VidDrop baixa vídeos da internet sem complicação. Sem extensão de navegador, sem Python, sem terminal. Cole a URL e clique em baixar.
 
-Supports **YouTube · Twitter/X · Instagram · Facebook · TikTok** — and anything else yt-dlp handles.
+Suporta **YouTube · Twitter/X · Instagram · Facebook · TikTok** — e qualquer outra plataforma que o yt-dlp suporte.
 
 <div align="center">
 
-| Feature | Details |
+| Recurso | Detalhes |
 |---|---|
-| Formats | MP4 (video) · MP3 (audio) |
-| Quality | Best, 1080p, 720p, 480p, 360p |
-| Audio bitrate | 320 · 192 · 128 · 64 kbps |
-| Batch mode | Load a `.txt` file of URLs |
-| Auto preview | Thumbnail + title on paste |
-| Progress | Multi-stage bar with cancel |
-| Updates | Silent auto-update via Velopack |
-| Output | Saved to `Downloads\` folder |
+| Formatos | MP4 (vídeo) · MP3 (áudio) |
+| Qualidade | Melhor, 1080p, 720p, 480p, 360p |
+| Bitrate de áudio | 320 · 192 · 128 · 64 kbps |
+| Modo em lote | Carrega um `.txt` com várias URLs |
+| Pré-visualização | Thumbnail + título automáticos ao colar |
+| Progresso | Barra multi-etapa com cancelamento |
+| Atualizações | Auto-update silencioso via Velopack |
+| Pasta de saída | Salva direto em `Downloads\` |
 
 </div>
 
 ---
 
-## Download
+## Como usar
 
-Grab the latest installer from [**Releases**](https://github.com/shukamis/viddrop/releases/latest).
+### Modo fácil — só instalar e usar
 
-> Requires Windows 10 or 11 (x64). No extra installs — everything is bundled.
+1. Baixe o instalador na página de [**Releases**](https://github.com/shukamis/viddrop/releases/latest)
+2. Execute o instalador — não precisa de nada além do próprio app (tudo já vem dentro)
+3. Abra o VidDrop
+4. Cole uma URL de vídeo no campo de texto
+5. Escolha o formato (MP4 ou MP3) e a qualidade
+6. Clique em **Baixar** — o arquivo vai direto para a pasta `Downloads`
 
-Run the installer → launch VidDrop → paste a URL. That's it.
+> Compatível com Windows 10 e 11 (64-bit). Sem dependências externas.
+
+### Baixar vários vídeos de uma vez
+
+1. Crie um arquivo `.txt` com uma URL por linha
+2. Clique no botão **lote** dentro do app
+3. Selecione o arquivo — o download começa automaticamente
 
 ---
 
-## How it works
+## Compilar do zero
 
-1. **Paste** a URL from YouTube, Twitter/X, Instagram, Facebook, or TikTok
-2. The app **fetches** title and thumbnail automatically (800 ms debounce)
-3. **Pick** format (MP4 / MP3) and quality
-4. Hit **Baixar** — file lands in your `Downloads` folder
+> *Build from source*
 
-For multiple videos, hit the **batch** button and load a `.txt` file with one URL per line.
-
----
-
-## Build from source
-
-### Prerequisites
+### Pré-requisitos
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- Windows (WinForms requires Windows)
-- [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases/latest) + [ffmpeg.exe](https://github.com/BtbN/FFmpeg-Builds/releases) — place both in `Tools\`
+- Windows (WinForms exige Windows)
+- [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases/latest) + [ffmpeg.exe](https://github.com/BtbN/FFmpeg-Builds/releases) — coloque ambos em `Tools\`
 
-### Run
+### Rodar
 
 ```
 dotnet run
 ```
 
-### Publish (self-contained)
+### Publicar (auto-contido)
 
 ```
 dotnet publish -c Release -r win-x64 --self-contained
 ```
 
-The `Tools\` binaries are bundled automatically (Copy to Output Directory is set in the project file).
+Os binários em `Tools\` são copiados automaticamente para a saída (configurado no `.csproj`).
 
 ---
 
-## Project structure
+## Estrutura do projeto
 
 ```
 VidDrop/
 ├── UI/          — MainForm, AeroButton, AeroProgressBar
 ├── Core/        — DownloadCoordinator, MetadataFetcher, DownloadEngine,
 │                  ProgressParser, SelfUpdater, UpdateChecker
-├── Process/     — YtDlpProcessRunner (sole Process owner), ToolLocator
+├── Process/     — YtDlpProcessRunner (único dono de Process), ToolLocator
 ├── Models/      — VideoMetadata, DownloadOptions, DownloadProgress, MediaFormat
 ├── Errors/      — DownloadException, ErrorClassifier
-├── Installer/   — Velopack build script
-└── Tools/       — yt-dlp.exe + ffmpeg.exe (not in repo — add manually)
+├── Installer/   — script de build Velopack
+└── Tools/       — yt-dlp.exe + ffmpeg.exe (não incluídos no repo — adicionar manualmente)
 ```
 
 ---
 
-## Stack
+## Tecnologias
 
-- **C# / .NET 8** — WinForms, self-contained win-x64 publish
-- **[YoutubeDLSharp](https://github.com/Bluegrams/YoutubeDLSharp)** — yt-dlp wrapper
-- **[yt-dlp](https://github.com/yt-dlp/yt-dlp)** — download engine (bundled)
-- **[ffmpeg](https://ffmpeg.org/)** — mux/transcode (bundled, LGPL build)
-- **[Velopack](https://velopack.io/)** — auto-update + installer
+- **C# / .NET 8** — WinForms, publicação auto-contida win-x64
+- **[YoutubeDLSharp](https://github.com/Bluegrams/YoutubeDLSharp)** — wrapper para yt-dlp
+- **[yt-dlp](https://github.com/yt-dlp/yt-dlp)** — motor de download (embutido)
+- **[ffmpeg](https://ffmpeg.org/)** — mux/transcode (embutido, build LGPL)
+- **[Velopack](https://velopack.io/)** — auto-update + instalador
 
 ---
 
-## License
+## Licença
 
-MIT — see [LICENSE](LICENSE).
+MIT — veja [LICENSE](LICENSE).
 
-yt-dlp and ffmpeg are distributed under their respective licenses (Unlicense / LGPL-2.1).
+yt-dlp e ffmpeg são distribuídos sob suas respectivas licenças (Unlicense / LGPL-2.1).
