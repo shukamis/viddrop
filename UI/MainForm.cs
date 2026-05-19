@@ -16,6 +16,7 @@ public class MainForm : Form
     private System.Threading.Timer? _debounce;
     private bool _isDownloading;
     private bool _settingUrl;
+    private bool _updateReady;
     private List<string>? _batchUrls;
 
     // Controls
@@ -48,6 +49,8 @@ public class MainForm : Form
         InitializeComponent();
         VerifyToolsOnStartup();
         SelfUpdater.RunInBackground();
+        UpdateChecker.UpdateReady += OnUpdateReady;
+        UpdateChecker.RunInBackground();
     }
 
     private void InitializeComponent()
@@ -350,6 +353,16 @@ public class MainForm : Form
 
     // ── Logic ─────────────────────────────────────────────────────────────────
 
+    private void OnUpdateReady(object? sender, EventArgs e)
+    {
+        BeginInvoke(() =>
+        {
+            _updateReady = true;
+            if (!_isDownloading)
+                statusLabel.Text = "↻  Nova versão disponível — será instalada ao fechar o app";
+        });
+    }
+
     private void VerifyToolsOnStartup()
     {
         try { ToolLocator.VerifyAll(); }
@@ -614,7 +627,9 @@ public class MainForm : Form
                 actionBtn.IsDanger   = false;
                 progressBar.Visible  = false;
                 progressBar.Value    = 0;
-                statusLabel.Text     = hint ?? "Cole uma URL e clique em Baixar";
+                statusLabel.Text     = _updateReady
+                    ? "↻  Nova versão disponível — será instalada ao fechar o app"
+                    : (hint ?? "Cole uma URL e clique em Baixar");
                 break;
         }
     }
@@ -642,6 +657,7 @@ public class MainForm : Form
         _debounce?.Dispose();
         _fetchCts?.Cancel();
         _coordinator.Cancel();
+        UpdateChecker.ApplyOnExit();
         base.OnFormClosing(e);
     }
 

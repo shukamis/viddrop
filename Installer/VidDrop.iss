@@ -35,9 +35,7 @@ Name: "english";    MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "Criar atalho na área de trabalho"; Flags: unchecked
 
 [Files]
-Source: "{#PublishDir}\{#AppExe}";        DestDir: "{app}"; Flags: ignoreversion
-Source: "{#PublishDir}\Tools\yt-dlp.exe"; DestDir: "{app}\Tools"; Flags: ignoreversion
-Source: "{#PublishDir}\Tools\ffmpeg.exe"; DestDir: "{app}\Tools"; Flags: ignoreversion
+Source: "{#PublishDir}\*"; Excludes: "*.pdb"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#AppName}";        Filename: "{app}\{#AppExe}"
