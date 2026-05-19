@@ -23,26 +23,9 @@ Cole a URL → escolha o formato → baixe. Simples assim.
 
 ## Interface
 
-```
- ╭──────────────────────────────────────────────────────╮
- │  🌐  Cole uma URL (YouTube, Instagram, TikTok...)     │
- ├──────────────────────────────────────────────────────┤
- │                                                       │
- │   ┌────────┐   Título do vídeo aqui                  │
- │   │ thumb  │   ● YouTube                             │
- │   └────────┘                                         │
- │                                                       │
- │   Formato  [ MP4 ▾ ]   Qualidade  [ 1080p ▾ ]       │
- │                                                       │
- │   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░  Finalizando…       │
- │                                                       │
- │               ╔══════════════╗                        │
- │               ║    Baixar    ║                        │
- │               ╚══════════════╝                        │
- ╰──────────────────────────────────────────────────────╯
-```
-
-> **Screenshots reais em breve.** Se quiser contribuir, abra uma issue ou PR.
+<div align="center">
+  <img src="docs/screenshot.png" alt="VidDrop — interface principal" width="490" />
+</div>
 
 ---
 
