@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="Resources/app.ico" width="72" alt="VidDrop" />
-
 # VidDrop
 
 ### Baixador de vídeos gratuito, open source e sem anúncios para Windows
