@@ -1,39 +1,91 @@
 <div align="center">
 
+<img src="Resources/app.ico" width="72" alt="VidDrop" />
+
 # VidDrop
 
-**Baixador de vídeos para Windows limpo, rápido e com alma Frutiger Aero.**
+### Baixador de vídeos gratuito, open source e sem anúncios para Windows
 
-*A clean, fast video downloader for Windows with a Frutiger Aero soul.*
+*Free, open source, ad-free video downloader for Windows*
 
-[![Release](https://img.shields.io/github/v/release/shukamis/viddrop?style=flat-square&color=5BA4E6&label=versão)](https://github.com/shukamis/viddrop/releases/latest)
-[![Platform](https://img.shields.io/badge/plataforma-Windows%2010%2F11-blue?style=flat-square&color=5BA4E6)](https://github.com/shukamis/viddrop/releases/latest)
-[![License](https://img.shields.io/badge/licença-MIT-blue?style=flat-square&color=5BA4E6)](LICENSE)
+[![Versão](https://img.shields.io/github/v/release/shukamis/viddrop?style=for-the-badge&color=4A90D9&label=download)](https://github.com/shukamis/viddrop/releases/latest)
+[![Windows](https://img.shields.io/badge/Windows_10%2F11-compatível-4A90D9?style=for-the-badge&logo=windows)](https://github.com/shukamis/viddrop/releases/latest)
+[![Licença MIT](https://img.shields.io/badge/licença-MIT-4A90D9?style=for-the-badge)](LICENSE)
+[![Open Source](https://img.shields.io/badge/open_source-100%25-4A90D9?style=for-the-badge)](https://github.com/shukamis/viddrop)
 
-Cole uma URL. Escolha o formato. Pronto.
+**YouTube · Twitter/X · Instagram · Facebook · TikTok**
+
+Cole a URL → escolha o formato → baixe. Simples assim.
 
 ---
 
 </div>
 
-## O que faz
+## Interface
 
-O VidDrop baixa vídeos da internet sem complicação. Sem extensão de navegador, sem Python, sem terminal. Cole a URL e clique em baixar.
+```
+ ╭──────────────────────────────────────────────────────╮
+ │  🌐  Cole uma URL (YouTube, Instagram, TikTok...)     │
+ ├──────────────────────────────────────────────────────┤
+ │                                                       │
+ │   ┌────────┐   Título do vídeo aqui                  │
+ │   │ thumb  │   ● YouTube                             │
+ │   └────────┘                                         │
+ │                                                       │
+ │   Formato  [ MP4 ▾ ]   Qualidade  [ 1080p ▾ ]       │
+ │                                                       │
+ │   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░  Finalizando…       │
+ │                                                       │
+ │               ╔══════════════╗                        │
+ │               ║    Baixar    ║                        │
+ │               ╚══════════════╝                        │
+ ╰──────────────────────────────────────────────────────╯
+```
 
-Suporta **YouTube · Twitter/X · Instagram · Facebook · TikTok** — e qualquer outra plataforma que o yt-dlp suporte.
+> **Screenshots reais em breve.** Se quiser contribuir, abra uma issue ou PR.
+
+---
+
+## Por que o VidDrop?
+
+| | VidDrop | Outras ferramentas |
+|---|---|---|
+| Gratuito | ✅ | Às vezes |
+| Sem anúncios | ✅ | Raramente |
+| Open source | ✅ | Raramente |
+| Sem instalação de Python/CLI | ✅ | Depende |
+| Auto-update silencioso | ✅ | Raramente |
+| Interface limpa | ✅ | Varia |
+
+---
+
+## Plataformas suportadas
+
+Baixe vídeos e áudios de qualquer uma dessas plataformas:
+
+- **YouTube** — vídeos, shorts, playlists
+- **Twitter / X** — vídeos de tweets
+- **Instagram** — reels, posts com vídeo
+- **Facebook** — vídeos públicos
+- **TikTok** — vídeos sem marca d'água
+- E qualquer outra plataforma suportada pelo [yt-dlp](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
+
+---
+
+## Recursos
 
 <div align="center">
 
 | Recurso | Detalhes |
 |---|---|
 | Formatos | MP4 (vídeo) · MP3 (áudio) |
-| Qualidade | Melhor, 1080p, 720p, 480p, 360p |
+| Qualidade de vídeo | Melhor, 1080p, 720p, 480p, 360p |
 | Bitrate de áudio | 320 · 192 · 128 · 64 kbps |
-| Modo em lote | Carrega um `.txt` com várias URLs |
-| Pré-visualização | Thumbnail + título automáticos ao colar |
-| Progresso | Barra multi-etapa com cancelamento |
-| Atualizações | Auto-update silencioso via Velopack |
-| Pasta de saída | Salva direto em `Downloads\` |
+| Pré-visualização | Thumbnail + título automáticos ao colar a URL |
+| Modo em lote | Carrega um `.txt` com várias URLs de uma vez |
+| Progresso | Barra multi-etapa com cancelamento a qualquer hora |
+| Auto-update | Atualização silenciosa via Velopack ao iniciar |
+| Pasta de saída | Salva direto em `Downloads\` sem subpastas |
 
 </div>
 
@@ -41,48 +93,59 @@ Suporta **YouTube · Twitter/X · Instagram · Facebook · TikTok** — e qualqu
 
 ## Como usar
 
-### Modo fácil — só instalar e usar
+### Modo fácil — instalar e usar em 3 passos
 
-1. Baixe o instalador na página de [**Releases**](https://github.com/shukamis/viddrop/releases/latest)
-2. Execute o instalador — não precisa de nada além do próprio app (tudo já vem dentro)
-3. Abra o VidDrop
-4. Cole uma URL de vídeo no campo de texto
-5. Escolha o formato (MP4 ou MP3) e a qualidade
-6. Clique em **Baixar** — o arquivo vai direto para a pasta `Downloads`
+**1.** Acesse a página de [**Releases**](https://github.com/shukamis/viddrop/releases/latest) e baixe o instalador mais recente
 
-> Compatível com Windows 10 e 11 (64-bit). Sem dependências externas.
+**2.** Execute o instalador — não precisa instalar mais nada (yt-dlp e ffmpeg já vêm embutidos)
 
-### Baixar vários vídeos de uma vez
+**3.** Abra o VidDrop, cole uma URL, escolha o formato e clique em **Baixar**
 
-1. Crie um arquivo `.txt` com uma URL por linha
-2. Clique no botão **lote** dentro do app
-3. Selecione o arquivo — o download começa automaticamente
+> O arquivo vai direto para a sua pasta `Downloads`. Sem configuração, sem terminal.
+
+---
+
+### Baixar vários vídeos de uma vez (modo lote)
+
+1. Crie um arquivo `.txt` com uma URL por linha:
+   ```
+   https://youtube.com/watch?v=...
+   https://twitter.com/user/status/...
+   https://www.tiktok.com/@user/video/...
+   ```
+2. Dentro do app, clique no botão **lote**
+3. Selecione o arquivo — os downloads começam automaticamente na sequência
 
 ---
 
 ## Compilar do zero
 
-> *Build from source*
+> *For contributors and developers — build from source*
 
 ### Pré-requisitos
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- Windows (WinForms exige Windows)
+- Windows 10 ou 11 (WinForms exige Windows)
 - [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases/latest) + [ffmpeg.exe](https://github.com/BtbN/FFmpeg-Builds/releases) — coloque ambos em `Tools\`
 
-### Rodar
+### Passos
 
-```
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/shukamis/viddrop.git
+cd viddrop
+
+# 2. Adicionar os binários em Tools\
+#    (yt-dlp.exe e ffmpeg.exe — links acima)
+
+# 3. Rodar em modo desenvolvimento
 dotnet run
-```
 
-### Publicar (auto-contido)
-
-```
+# 4. Publicar build auto-contida
 dotnet publish -c Release -r win-x64 --self-contained
 ```
 
-Os binários em `Tools\` são copiados automaticamente para a saída (configurado no `.csproj`).
+Os binários em `Tools\` são copiados automaticamente para a pasta de saída (configurado no `.csproj`).
 
 ---
 
@@ -90,14 +153,14 @@ Os binários em `Tools\` são copiados automaticamente para a saída (configurad
 
 ```
 VidDrop/
-├── UI/          — MainForm, AeroButton, AeroProgressBar
+├── UI/          — MainForm, AeroButton, AeroProgressBar (estilo Frutiger Aero)
 ├── Core/        — DownloadCoordinator, MetadataFetcher, DownloadEngine,
 │                  ProgressParser, SelfUpdater, UpdateChecker
 ├── Process/     — YtDlpProcessRunner (único dono de Process), ToolLocator
 ├── Models/      — VideoMetadata, DownloadOptions, DownloadProgress, MediaFormat
 ├── Errors/      — DownloadException, ErrorClassifier
 ├── Installer/   — script de build Velopack
-└── Tools/       — yt-dlp.exe + ffmpeg.exe (não incluídos no repo — adicionar manualmente)
+└── Tools/       — yt-dlp.exe + ffmpeg.exe (não estão no repo — adicionar manualmente)
 ```
 
 ---
@@ -112,8 +175,18 @@ VidDrop/
 
 ---
 
+## Contribuindo
+
+Pull requests são bem-vindos! Para mudanças grandes, abra uma issue primeiro para discutir o que você gostaria de mudar.
+
+---
+
+<div align="center">
+
 ## Licença
 
-MIT — veja [LICENSE](LICENSE).
+MIT © [Arthur Shukamis](https://github.com/shukamis) — veja [LICENSE](LICENSE)
 
-yt-dlp e ffmpeg são distribuídos sob suas respectivas licenças (Unlicense / LGPL-2.1).
+*yt-dlp e ffmpeg são distribuídos sob suas próprias licenças (Unlicense / LGPL-2.1)*
+
+</div>
