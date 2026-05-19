@@ -1,24 +1,38 @@
-﻿# VidDrop - Project State
+# VidDrop - Project State
 
-**Status:** Planning
-**Current Phase:** None (not started)
-**Last Updated:** 2026-05-18
+**Status:** In Progress
+**Current Phase:** Phase 6 (pending installer)
+**Last Updated:** 2026-05-19
 
 ## Project Reference
-See: .planning/PROJECT.md (updated 2026-05-18)
+See: .planning/PROJECT.md
 
-**Core value:** Colar uma URL e ter o arquivo baixado em segundos, sem instalar mais nada alem do proprio app.
-**Current focus:** Ready to start Phase 1
+**Core value:** Colar uma URL e ter o arquivo baixado em segundos, sem instalar mais nada além do próprio app.
 
 ## Phase Status
-- Phase 1: First Download (YouTube MP4) - Not Started
-- Phase 2: Audio & Quality Choices - Not Started
-- Phase 3: Preview Before Download - Not Started
-- Phase 4: All Platforms - Not Started
-- Phase 5: Robust Progress & Cancel - Not Started
-- Phase 6: Frutiger Aero Look & Installer - Not Started
+- Phase 1: First Download (YouTube MP4) - **Done**
+- Phase 2: Audio & Quality Choices - **Done**
+- Phase 3: Preview Before Download - **Done**
+- Phase 4: All Platforms - **Done**
+- Phase 5: Robust Progress & Cancel - **Done**
+- Phase 6: Frutiger Aero Look & Installer - **Partial** (UI done, installer deferred)
+- Phase 7: Auto-Cut (Viral Clip Generator) - Not Started
+
+## What's Done (Phases 1–6 code)
+- YouTube, Twitter/X, Instagram, Facebook, TikTok via yt-dlp (no hardcoded Node.js path)
+- MP4 + MP3 download with quality and bitrate selection
+- Auto metadata preview (thumbnail + title, debounced 800ms)
+- Multi-stage progress: Vídeo → Áudio → Finalizando, with per-stage label
+- Toggle Baixar/Cancelar button; process tree kill on cancel; temp dir cleanup
+- Frutiger Aero UI: sky gradient, glass card, glossy AeroButton, AeroProgressBar
+- Colored platform badge (YouTube, Twitter, Instagram, Facebook, TikTok)
+- yt-dlp silent self-update on startup (SelfUpdater)
+- Output folder: %USERPROFILE%\Downloads\VidDrop
+
+## Pending
+- Inno Setup installer (Installer/VidDrop.iss exists but not built yet — deferred to final step)
+- Phase 7: AI viral clip generator
 
 ## Notes
-- Research flags: Phases 1 and 6 warrant deeper research during planning (yt-dlp process/flag behavior + bundle-vs-download decision; code signing + Inno Setup specifics).
-- Open question to resolve early: bundle yt-dlp.exe vs first-run download (affects AV false positives and staleness).
-- 20/20 v1 requirements mapped; no orphans.
+- Bundle decision: yt-dlp.exe + ffmpeg.exe bundled via Tools/ (CopyToOutputDirectory)
+- Tools verified on startup; app exits cleanly if missing
