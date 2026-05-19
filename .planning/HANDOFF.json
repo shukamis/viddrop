@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-05-19T06:36:24.098Z",
+  "phase": "6",
+  "phase_name": "Frutiger Aero Look & Installer",
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Phase 1-3: YouTube download, format picker, metadata preview", "status": "done", "commit": "b28d3e4"},
+    {"id": 2, "name": "Phase 4: All platforms (Twitter/X, Instagram, Facebook, TikTok)", "status": "done", "commit": "f3395b5"},
+    {"id": 3, "name": "Phase 5: Multi-stage progress, toggle Baixar/Cancelar, cleanup on cancel", "status": "done", "commit": "f3395b5"},
+    {"id": 4, "name": "Phase 6 UI: Frutiger Aero glass card, sky gradient, AeroButton, AeroProgressBar", "status": "done", "commit": "f3395b5"},
+    {"id": 5, "name": "Batch download: '...' button + txt file loader + sequential queue", "status": "done", "uncommitted": true},
+    {"id": 6, "name": "Fix output folder — remove VidDrop subfolder, save direct to Downloads", "status": "done", "uncommitted": true},
+    {"id": 7, "name": "Fix OpenFileDialog crash: add [STAThread] to Program.cs Main", "status": "done", "uncommitted": true}
+  ],
+  "remaining_tasks": [
+    {"id": 8, "name": "Inno Setup installer — dotnet publish Release + compile VidDrop.iss", "status": "not_started"},
+    {"id": 9, "name": "Phase 7: Auto-Cut viral clip generator (future milestone)", "status": "not_started"}
+  ],
+  "blockers": [],
+  "human_actions_pending": [
+    {
+      "action": "Add yt-dlp.exe and ffmpeg.exe to Tools/ folder",
+      "context": "Tools are declared in .csproj (CopyToOutputDirectory=Always) but the actual binaries are not in the repo. App crashes on startup without them.",
+      "blocking": true
+    }
+  ],
+  "decisions": [
+    {"decision": "Output folder is Downloads (no VidDrop subfolder)", "rationale": "User requested — subfolder was not desired", "phase": "4"},
+    {"decision": "Installer deferred to very end", "rationale": "User wants to see final working app before packaging", "phase": "6"},
+    {"decision": "No [STAThread] in original Program.cs top-level syntax", "rationale": "Bug — top-level statements don't support [STAThread]; fixed with explicit Main()", "phase": "6"}
+  ],
+  "uncommitted_files": [
+    "Core/DownloadEngine.cs",
+    "Program.cs",
+    "UI/MainForm.cs",
+    ".planning/STATE.md"
+  ],
+  "next_action": "Commit uncommitted changes (batch download + fixes), then test the full flow: paste URL, load txt batch, download, cancel",
+  "context_notes": "App is functional for phases 1-6 (UI). Installer not yet built. Tools/ binaries must be added manually. Batch download feature added this session with sequential queue and [N/X] progress prefix."
+}

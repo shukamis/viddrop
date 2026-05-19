@@ -11,7 +11,7 @@ public class DownloadEngine
     private static readonly string OutputFolder =
         Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            "Downloads", "VidDrop");
+            "Downloads");
 
     public async Task DownloadAsync(
         DownloadOptions options,

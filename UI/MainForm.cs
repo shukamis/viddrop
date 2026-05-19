@@ -12,8 +12,11 @@ public class MainForm : Form
     private readonly DownloadCoordinator _coordinator = new();
     private readonly MetadataFetcher _fetcher = new();
     private CancellationTokenSource? _fetchCts;
+    private CancellationTokenSource? _batchCts;
     private System.Threading.Timer? _debounce;
     private bool _isDownloading;
+    private bool _settingUrl;
+    private List<string>? _batchUrls;
 
     // Controls
     private TextBox urlBox = null!;
@@ -27,6 +30,7 @@ public class MainForm : Form
     private Label bitrateLabel = null!;
     private ComboBox bitrateCombo = null!;
     private AeroButton actionBtn = null!;
+    private AeroButton batchBtn = null!;
     private AeroProgressBar progressBar = null!;
     private Label statusLabel = null!;
 
@@ -60,13 +64,23 @@ public class MainForm : Form
         urlBox = new TextBox
         {
             Location    = new Point(InnerX, 93),
-            Size        = new Size(InnerW, 28),
+            Size        = new Size(InnerW - 40, 28),
             Font        = new Font("Segoe UI", 9.5f),
             PlaceholderText = "Cole uma URL (YouTube, Twitter/X, Instagram, Facebook...)",
             BorderStyle = BorderStyle.FixedSingle,
             BackColor   = Color.FromArgb(245, 251, 255),
         };
         urlBox.TextChanged += OnUrlChanged;
+
+        // Batch load button
+        batchBtn = new AeroButton
+        {
+            Location = new Point(InnerX + InnerW - 36, 93),
+            Size     = new Size(36, 28),
+            Text     = "···",
+            Font     = new Font("Segoe UI", 10f, FontStyle.Bold),
+        };
+        batchBtn.Click += OnBatchClick;
 
         // Platform badge
         platformLabel = new Label
@@ -194,7 +208,7 @@ public class MainForm : Form
         };
 
         Controls.AddRange([
-            urlBox,
+            urlBox, batchBtn,
             platformLabel,
             thumbBox, titleLabel,
             formatLabel, formatCombo,
@@ -349,11 +363,60 @@ public class MainForm : Form
 
     private void OnUrlChanged(object? sender, EventArgs e)
     {
+        if (_settingUrl) return;
+
+        // User typed manually — clear any loaded batch
+        if (_batchUrls != null)
+        {
+            _batchUrls = null;
+            actionBtn.Text = "Baixar";
+        }
+
         var url = urlBox.Text.Trim();
         ShowPlatformBadge(url);
         _debounce?.Dispose();
         _debounce = new System.Threading.Timer(
             _ => BeginInvoke(TriggerFetch), null, 800, Timeout.Infinite);
+    }
+
+    private void OnBatchClick(object? sender, EventArgs e)
+    {
+        try
+        {
+            using var dlg = new OpenFileDialog
+            {
+                Title  = "Selecionar arquivo com URLs",
+                Filter = "Arquivo de texto (*.txt)|*.txt|Todos os arquivos|*.*",
+            };
+            if (dlg.ShowDialog(this) != DialogResult.OK) return;
+
+            var urls = File.ReadAllLines(dlg.FileName)
+                .Select(l => l.Trim())
+                .Where(l => l.StartsWith("http://") || l.StartsWith("https://"))
+                .Distinct()
+                .ToList();
+
+            if (urls.Count == 0)
+            {
+                MessageBox.Show(
+                    "Nenhuma URL válida encontrada no arquivo.\nColoque uma URL por linha.",
+                    "VidDrop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            _batchUrls = urls;
+            platformLabel.Text      = $"✓  {urls.Count} URL{(urls.Count > 1 ? "s" : "")} carregada{(urls.Count > 1 ? "s" : "")}";
+            platformLabel.ForeColor = Color.FromArgb(15, 130, 55);
+            platformLabel.Visible   = true;
+            actionBtn.Text          = $"Baixar {urls.Count} URLs";
+            titleLabel.Text         = $"{urls.Count} vídeo{(urls.Count > 1 ? "s" : "")} na fila — clique em Baixar";
+            thumbBox.Image          = null;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao carregar arquivo: {ex.Message}",
+                "VidDrop", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
     private void ShowPlatformBadge(string url)
@@ -409,71 +472,118 @@ public class MainForm : Form
 
     private async void OnActionClick(object? sender, EventArgs e)
     {
-        if (_isDownloading) { _coordinator.Cancel(); return; }
+        if (_isDownloading)
+        {
+            _batchCts?.Cancel();
+            _coordinator.Cancel();
+            return;
+        }
 
+        bool mp3 = formatCombo.SelectedIndex == 1;
+        var quality = qualityCombo.SelectedIndex switch
+        {
+            1 => QualityLevel.P1080, 2 => QualityLevel.P720,
+            3 => QualityLevel.P480,  4 => QualityLevel.P360,
+            _ => QualityLevel.Best,
+        };
+        var bitrate = bitrateCombo.SelectedIndex switch
+        {
+            0 => Mp3Bitrate.K128, 2 => Mp3Bitrate.K320, _ => Mp3Bitrate.K192,
+        };
+
+        // ── Batch mode ────────────────────────────────────────────
+        if (_batchUrls is { Count: > 0 })
+        {
+            var urls = _batchUrls;
+            _batchUrls = null;
+            _batchCts  = new CancellationTokenSource();
+            var bct    = _batchCts.Token;
+
+            SetState(AppState.Downloading);
+            int ok = 0, fail = 0;
+
+            for (int i = 0; i < urls.Count; i++)
+            {
+                if (bct.IsCancellationRequested) break;
+
+                _settingUrl  = true;
+                urlBox.Text  = urls[i];
+                _settingUrl  = false;
+                titleLabel.Text = $"[{i + 1}/{urls.Count}] Aguardando...";
+
+                string prefix = $"[{i + 1}/{urls.Count}]  ";
+                var opts = new DownloadOptions
+                {
+                    Url = urls[i], Format = mp3 ? MediaFormat.Mp3 : MediaFormat.Mp4,
+                    Quality = quality, Bitrate = bitrate,
+                };
+
+                try
+                {
+                    await _coordinator.StartAsync(opts,
+                        new Progress<DownloadProgress>(p => OnProgress(p, prefix)));
+                    ok++;
+                }
+                catch (DownloadException ex) when (ex.Category == ErrorCategory.Cancelled)
+                {
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    fail++;
+                    statusLabel.Text = $"{prefix}Erro: {ex.Message}";
+                    await Task.Delay(2000);
+                }
+            }
+
+            string fmt = mp3 ? "MP3" : "MP4";
+            string result = fail == 0
+                ? $"{ok}/{urls.Count} {fmt}s salvos em Downloads"
+                : $"{ok} ok, {fail} erro(s) — {fmt} em Downloads";
+            SetState(AppState.Idle, result);
+            actionBtn.Text = "Baixar";
+            return;
+        }
+
+        // ── Single URL mode ────────────────────────────────────────
         var url = urlBox.Text.Trim();
         if (string.IsNullOrEmpty(url)) return;
 
-        bool mp3 = formatCombo.SelectedIndex == 1;
-
-        var quality = qualityCombo.SelectedIndex switch
+        var singleOpts = new DownloadOptions
         {
-            1 => QualityLevel.P1080,
-            2 => QualityLevel.P720,
-            3 => QualityLevel.P480,
-            4 => QualityLevel.P360,
-            _ => QualityLevel.Best,
-        };
-
-        var bitrate = bitrateCombo.SelectedIndex switch
-        {
-            0 => Mp3Bitrate.K128,
-            2 => Mp3Bitrate.K320,
-            _ => Mp3Bitrate.K192,
-        };
-
-        var opts = new DownloadOptions
-        {
-            Url     = url,
-            Format  = mp3 ? MediaFormat.Mp3 : MediaFormat.Mp4,
-            Quality = quality,
-            Bitrate = bitrate,
+            Url = url, Format = mp3 ? MediaFormat.Mp3 : MediaFormat.Mp4,
+            Quality = quality, Bitrate = bitrate,
         };
 
         SetState(AppState.Downloading);
         try
         {
-            await _coordinator.StartAsync(opts, new Progress<DownloadProgress>(OnProgress));
+            await _coordinator.StartAsync(singleOpts,
+                new Progress<DownloadProgress>(p => OnProgress(p)));
             SetState(AppState.Done, mp3 ? "MP3" : "MP4");
         }
         catch (DownloadException ex) when (ex.Category == ErrorCategory.Cancelled)
         {
             SetState(AppState.Idle, "Download cancelado.");
         }
-        catch (DownloadException ex)
-        {
-            SetState(AppState.Idle, $"Erro: {ex.Message}");
-        }
-        catch (Exception ex)
-        {
-            SetState(AppState.Idle, $"Erro inesperado: {ex.Message}");
-        }
+        catch (DownloadException ex) { SetState(AppState.Idle, $"Erro: {ex.Message}"); }
+        catch (Exception ex)         { SetState(AppState.Idle, $"Erro inesperado: {ex.Message}"); }
     }
 
-    private void OnProgress(DownloadProgress p)
+    private void OnProgress(DownloadProgress p, string prefix = "")
     {
         progressBar.Value = (int)Math.Clamp(p.Percent, 0, 100);
 
         string speed = string.IsNullOrWhiteSpace(p.Speed) || p.Speed == "N/A" ? "" : $"  {p.Speed}";
         string eta   = string.IsNullOrWhiteSpace(p.Eta)   || p.Eta   == "N/A" ? "" : $"  ETA {p.Eta}";
 
-        statusLabel.Text = p.Stage switch
+        statusLabel.Text = prefix + (p.Stage switch
         {
             DownloadStage.Video      => $"Baixando vídeo...  {p.Percent:F0}%{speed}{eta}",
             DownloadStage.Audio      => $"Baixando áudio...  {p.Percent:F0}%{speed}{eta}",
             DownloadStage.Converting => "Finalizando...",
             _                        => $"Baixando...  {p.Percent:F0}%{speed}",
-        };
+        });
     }
 
     private void SetState(AppState state, string? hint = null)
@@ -495,7 +605,7 @@ public class MainForm : Form
                 actionBtn.IsDanger   = false;
                 progressBar.Visible  = false;
                 progressBar.Value    = 0;
-                statusLabel.Text     = $"Pronto! {hint} salvo em Downloads\\VidDrop";
+                statusLabel.Text     = $"Pronto! {hint} salvo em Downloads";
                 break;
 
             case AppState.Idle:
