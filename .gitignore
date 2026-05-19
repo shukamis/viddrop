@@ -3,3 +3,11 @@ obj/
 .vs/
 *.user
 dist/
+
+# Internal workflow files — not for public consumption
+.planning/
+CLAUDE.md
+.claude/
+
+# Bundled binaries — add manually after cloning
+Tools/
